@@ -1,0 +1,4 @@
+import assert from 'node:assert/strict';import {writeFile} from 'node:fs/promises';
+const base=process.env.FINANCE_TEST_BASE||'http://127.0.0.1:3218';const turns=[];let context;
+for(const question of ['מה הארגון עושה','אוקי מי אחראי על הכספים']){const r=await fetch(base+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question,context})});assert.equal(r.status,200);const response=await r.json();turns.push({question,response});context=response.conversationContext;if(turns.length===2){assert.notEqual(response.mode,'clarify-organization');assert.ok(!response.answer.includes('שתואם במדויק לשם אוקי'));}}
+await writeFile('reports/rag-critical/finance-switch.json',JSON.stringify(turns,null,2));console.log(turns.map(t=>({question:t.question,mode:t.response.mode,answer:t.response.answer})));

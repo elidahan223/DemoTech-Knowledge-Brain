@@ -1,0 +1,14 @@
+import fs from 'node:fs/promises';import path from 'node:path';
+const root=process.cwd(),scratch='C:/Users/elida/AppData/Local/Temp/claude/aaabc91568e3a57d/dfeaee04-fb46-41a7-b6e2-c973adae30d8/scratchpad';
+const relative=['test-data/enterprise-3000','test-data/enterprise-3000-questions.json','repositories/system-audit-1793943609888','repositories/reindex-check-1793945575035','.npm-cache','.builder-cache','release'];
+for(const name of ['architecture-1793904293316','Enterprise-3000-replaced-20261107-082742','source-before-perf-20261105-205344','system-audit-1793945168428','system-audit-1793946477162','system-audit-1794032828599'])relative.push('backups/'+name);
+for(const name of await fs.readdir('reports'))if(name.startsWith('desktop-profile-'))relative.push('reports/'+name);
+for(const sub of ['system-audit','rag-critical'])for(const name of await fs.readdir('reports/'+sub))if(name.startsWith('electron-profile-'))relative.push('reports/'+sub+'/'+name);
+async function profiles(dir){for(const item of await fs.readdir(dir,{withFileTypes:true})){const full=path.join(dir,item.name);if(item.isDirectory()&&!item.name.startsWith('desktop-profile-')&&!item.name.startsWith('electron-profile-'))await profiles(full);else if(item.isFile()&&item.name.endsWith('.cpuprofile'))relative.push(path.relative(root,full));}}
+await profiles(path.resolve('reports'));
+const paths=[...relative.map(p=>path.resolve(root,p)),...['bench','cam','demotech-copy','e3000-copy','graphrag','hf'].map(p=>path.resolve(scratch,p))];
+async function size(file){const stat=await fs.lstat(file);if(stat.isSymbolicLink())throw Error('Cleanup refuses symbolic link: '+file);if(stat.isFile())return {bytes:stat.size,files:1};const result={bytes:0,files:0};for(const name of await fs.readdir(file)){const item=await size(path.join(file,name));result.bytes+=item.bytes;result.files+=item.files;}return result;}
+const targets=[];for(const target of paths){try{targets.push({path:target,...await size(target)});}catch(e){if(e.code!=='ENOENT')throw e;}}
+const protectedPaths=['repositories/DemoTech-Organization','test-data/demotech-organization','backups/current-DemoTech-Organization','docs','node_modules','build','dist','src','server','shared','electron','tests'].map(p=>path.resolve(root,p));
+for(const t of targets)if(protectedPaths.some(p=>p.toLowerCase()===t.path.toLowerCase()||p.toLowerCase().startsWith(t.path.toLowerCase()+path.sep)))throw Error('Protected directory in cleanup plan');
+const report={createdUTC:new Date().toISOString(),workspace:root,explicitTemporaryRoot:path.resolve(scratch),protectedPaths,targets,totalBytes:targets.reduce((n,t)=>n+t.bytes,0),totalFiles:targets.reduce((n,t)=>n+t.files,0)};await fs.writeFile('reports/cleanup/plan.json',JSON.stringify(report,null,2));console.log(JSON.stringify({targets:targets.length,files:report.totalFiles,GiB:(report.totalBytes/1024**3).toFixed(2)}));

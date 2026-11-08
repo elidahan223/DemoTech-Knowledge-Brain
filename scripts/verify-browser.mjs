@@ -1,0 +1,13 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+import {mkdir,writeFile} from 'node:fs/promises';
+const browser=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true});
+const errors=[];const page=await browser.newPage({viewport:{width:1500,height:950}});page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:3210');await page.getByText('20 מסמכים זמינים לחיפוש',{exact:false}).count();await page.locator('.stats b').first().filter({hasText:'20'}).waitFor();
+await page.waitForTimeout(1000);await mkdir('reports',{recursive:true});await page.screenshot({path:'reports/desktop.png',fullPage:true});
+await page.getByRole('button',{name:/ספריית מסמכים/}).click();assert.equal(await page.locator('.document-grid article').count(),20);
+await page.locator('.document-grid article').filter({hasText:'רכש ציוד מחשוב'}).getByRole('button',{name:/פתיחה/}).click();await page.locator('.document-text').filter({hasText:'DT-RAG-7319'}).waitFor();
+await page.locator('.quiet').click();await page.getByRole('textbox',{name:'שאלה למסמכי הארגון'}).fill('מה קוד הבקרה של נוהל הרכש?');await page.getByRole('button',{name:'שליחת שאלה'}).click();await page.locator('.message.assistant').filter({hasText:'DT-RAG-7319'}).waitFor({timeout:180000});
+await page.locator('.sources button').first().click();await page.locator('.evidence').waitFor();await page.screenshot({path:'reports/chat-and-source.png',fullPage:true});
+await page.setViewportSize({width:390,height:844});await page.waitForTimeout(1000);await page.screenshot({path:'reports/mobile.png',fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth));assert.deepEqual(errors,[]);
+await writeFile('reports/browser-validation.json',JSON.stringify({desktop:'passed',documentOpen:'passed',chat:'passed',sourceOpen:'passed',mobileOverflow:'passed',errors},null,2));await browser.close();console.log('BROWSER VALIDATION PASSED');

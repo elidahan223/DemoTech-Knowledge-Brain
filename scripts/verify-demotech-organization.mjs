@@ -1,0 +1,9 @@
+import assert from 'node:assert/strict';import {writeFile} from 'node:fs/promises';
+const base=process.env.DEMO_ORG_BASE||'http://127.0.0.1:3219',turns=[];let context;
+for(const question of ['מה הארגון עושה','אוקי מי אחראי על הכספים','מה הנושא של הקבצים','מי פותח את בקשת הקליטה לעובד חדש?','מה קוד הבקרה של נוהל הרכש?']){const started=performance.now();const r=await fetch(base+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question,context})});assert.equal(r.status,200);const result=await r.json();turns.push({question,result,ms:performance.now()-started});context=result.conversationContext;
+ if(question==='מה הארגון עושה'){assert.equal(result.mode,'ollama');assert.ok(result.answer.length>20);assert.ok(result.sources.every(s=>s.title==='DemoTech'));}
+ if(question==='אוקי מי אחראי על הכספים'){assert.equal(result.mode,'ollama');assert.ok(result.answer.includes('רונית לוי'));}
+ if(question==='מה הנושא של הקבצים')assert.equal(result.mode,'ollama');
+ for(const e of result.evidence||[]){const s=result.sources.find(s=>s.citation===e.source);assert.ok(s);const doc=await(await fetch(base+'/api/documents/'+s.documentId)).json();assert.ok(doc.text.includes(e.quote));}
+ console.log(question,result.mode,result.answer.slice(0,400));}
+const metrics=await(await fetch(base+'/api/metrics')).json();assert.equal(metrics.documents.length,1);assert.equal(metrics.documents[0].status,'ready');assert.equal(metrics.documents[0].count,30);assert.equal(metrics.embeddings,metrics.chunks);const graph=await(await fetch(base+'/api/graph')).json();assert.ok(graph.edges.some(e=>e.type==='references'));await writeFile('reports/demotech-organization/validation.json',JSON.stringify({turns,metrics,graphNodes:graph.nodes.length,graphEdges:graph.edges.length,fictional:true},null,2));

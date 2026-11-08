@@ -1,0 +1,35 @@
+node_modules/
+dist/
+data/
+.env
+*.log
+.npm-cache/
+build/
+release/
+.electron-cache/
+.builder-cache/
+reports/desktop-profile*/
+reports/installed-app/
+repositories/
+backups/
+# Local databases, models and credentials must never be published.
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.gguf
+.env.*
+!.env.example
+*.pem
+*.key
+.aws/
+.codex/
+.agents/
+# Keep only reviewed Markdown reports referenced by the documentation.
+/reports/**
+!/reports/onboarding/
+!/reports/onboarding/VALIDATION.md
+!/reports/local-ai/
+!/reports/local-ai/RESULT.md
+!/reports/departure-chat/
+!/reports/departure-chat/RESULT.md

@@ -1,0 +1,391 @@
+{
+  "nodes": [
+    {
+      "id": "HR-001",
+      "label": "קליטת עובד חדש",
+      "department": "HR",
+      "type": "document"
+    },
+    {
+      "id": "HR-002",
+      "label": "עבודה מהבית",
+      "department": "HR",
+      "type": "document"
+    },
+    {
+      "id": "HR-003",
+      "label": "חופשות והיעדרויות",
+      "department": "HR",
+      "type": "document"
+    },
+    {
+      "id": "HR-004",
+      "label": "סיום העסקה",
+      "department": "HR",
+      "type": "document"
+    },
+    {
+      "id": "IT-001",
+      "label": "פתיחת הרשאות למערכות",
+      "department": "IT",
+      "type": "document"
+    },
+    {
+      "id": "IT-002",
+      "label": "הקצאת מחשב לעובד",
+      "department": "IT",
+      "type": "document"
+    },
+    {
+      "id": "IT-003",
+      "label": "החזרת ציוד וסגירת חשבון",
+      "department": "IT",
+      "type": "document"
+    },
+    {
+      "id": "IT-004",
+      "label": "טיפול בתקלות מחשוב",
+      "department": "IT",
+      "type": "document"
+    },
+    {
+      "id": "FIN-001",
+      "label": "רכש ציוד מחשוב",
+      "department": "FIN",
+      "type": "document"
+    },
+    {
+      "id": "FIN-002",
+      "label": "פתיחת הזמנת רכש",
+      "department": "FIN",
+      "type": "document"
+    },
+    {
+      "id": "FIN-003",
+      "label": "החזר הוצאות לעובדים",
+      "department": "FIN",
+      "type": "document"
+    },
+    {
+      "id": "FIN-004",
+      "label": "אישור ספק חדש",
+      "department": "FIN",
+      "type": "document"
+    },
+    {
+      "id": "SEC-001",
+      "label": "מדיניות הרשאות וגישה",
+      "department": "SEC",
+      "type": "document"
+    },
+    {
+      "id": "SEC-002",
+      "label": "סיסמאות ואימות רב-שלבי",
+      "department": "SEC",
+      "type": "document"
+    },
+    {
+      "id": "SEC-003",
+      "label": "סיווג ושמירת מידע",
+      "department": "SEC",
+      "type": "document"
+    },
+    {
+      "id": "SEC-004",
+      "label": "דיווח על אירוע אבטחה",
+      "department": "SEC",
+      "type": "document"
+    },
+    {
+      "id": "OPS-001",
+      "label": "רישום וניהול נכסים",
+      "department": "OPS",
+      "type": "document"
+    },
+    {
+      "id": "OPS-002",
+      "label": "ניהול תקלות תפעוליות",
+      "department": "OPS",
+      "type": "document"
+    },
+    {
+      "id": "OPS-003",
+      "label": "אישור שינוי בתהליך",
+      "department": "OPS",
+      "type": "document"
+    },
+    {
+      "id": "OPS-004",
+      "label": "מפת בעלי תפקידים",
+      "department": "OPS",
+      "type": "document"
+    }
+  ],
+  "edges": [
+    {
+      "source": "HR-001",
+      "target": "IT-001",
+      "type": "references"
+    },
+    {
+      "source": "HR-001",
+      "target": "SEC-001",
+      "type": "references"
+    },
+    {
+      "source": "HR-001",
+      "target": "IT-002",
+      "type": "references"
+    },
+    {
+      "source": "HR-002",
+      "target": "SEC-002",
+      "type": "references"
+    },
+    {
+      "source": "HR-002",
+      "target": "SEC-001",
+      "type": "references"
+    },
+    {
+      "source": "HR-003",
+      "target": "OPS-003",
+      "type": "references"
+    },
+    {
+      "source": "HR-004",
+      "target": "IT-003",
+      "type": "references"
+    },
+    {
+      "source": "HR-004",
+      "target": "SEC-001",
+      "type": "references"
+    },
+    {
+      "source": "HR-004",
+      "target": "IT-002",
+      "type": "references"
+    },
+    {
+      "source": "IT-001",
+      "target": "HR-001",
+      "type": "references"
+    },
+    {
+      "source": "IT-001",
+      "target": "SEC-001",
+      "type": "references"
+    },
+    {
+      "source": "IT-001",
+      "target": "SEC-003",
+      "type": "references"
+    },
+    {
+      "source": "IT-002",
+      "target": "FIN-001",
+      "type": "references"
+    },
+    {
+      "source": "IT-002",
+      "target": "OPS-001",
+      "type": "references"
+    },
+    {
+      "source": "IT-002",
+      "target": "HR-001",
+      "type": "references"
+    },
+    {
+      "source": "IT-003",
+      "target": "HR-004",
+      "type": "references"
+    },
+    {
+      "source": "IT-003",
+      "target": "SEC-003",
+      "type": "references"
+    },
+    {
+      "source": "IT-003",
+      "target": "OPS-001",
+      "type": "references"
+    },
+    {
+      "source": "IT-004",
+      "target": "SEC-004",
+      "type": "references"
+    },
+    {
+      "source": "IT-004",
+      "target": "OPS-002",
+      "type": "references"
+    },
+    {
+      "source": "FIN-001",
+      "target": "IT-002",
+      "type": "references"
+    },
+    {
+      "source": "FIN-001",
+      "target": "FIN-002",
+      "type": "references"
+    },
+    {
+      "source": "FIN-001",
+      "target": "OPS-001",
+      "type": "references"
+    },
+    {
+      "source": "FIN-002",
+      "target": "FIN-001",
+      "type": "references"
+    },
+    {
+      "source": "FIN-002",
+      "target": "OPS-001",
+      "type": "references"
+    },
+    {
+      "source": "FIN-003",
+      "target": "HR-003",
+      "type": "references"
+    },
+    {
+      "source": "FIN-003",
+      "target": "FIN-002",
+      "type": "references"
+    },
+    {
+      "source": "FIN-004",
+      "target": "SEC-003",
+      "type": "references"
+    },
+    {
+      "source": "FIN-004",
+      "target": "FIN-002",
+      "type": "references"
+    },
+    {
+      "source": "SEC-001",
+      "target": "IT-001",
+      "type": "references"
+    },
+    {
+      "source": "SEC-001",
+      "target": "HR-004",
+      "type": "references"
+    },
+    {
+      "source": "SEC-001",
+      "target": "SEC-003",
+      "type": "references"
+    },
+    {
+      "source": "SEC-002",
+      "target": "SEC-001",
+      "type": "references"
+    },
+    {
+      "source": "SEC-002",
+      "target": "SEC-004",
+      "type": "references"
+    },
+    {
+      "source": "SEC-002",
+      "target": "HR-002",
+      "type": "references"
+    },
+    {
+      "source": "SEC-003",
+      "target": "SEC-001",
+      "type": "references"
+    },
+    {
+      "source": "SEC-003",
+      "target": "FIN-004",
+      "type": "references"
+    },
+    {
+      "source": "SEC-003",
+      "target": "IT-003",
+      "type": "references"
+    },
+    {
+      "source": "SEC-004",
+      "target": "IT-004",
+      "type": "references"
+    },
+    {
+      "source": "SEC-004",
+      "target": "SEC-002",
+      "type": "references"
+    },
+    {
+      "source": "SEC-004",
+      "target": "OPS-002",
+      "type": "references"
+    },
+    {
+      "source": "OPS-001",
+      "target": "IT-002",
+      "type": "references"
+    },
+    {
+      "source": "OPS-001",
+      "target": "IT-003",
+      "type": "references"
+    },
+    {
+      "source": "OPS-001",
+      "target": "FIN-001",
+      "type": "references"
+    },
+    {
+      "source": "OPS-002",
+      "target": "IT-004",
+      "type": "references"
+    },
+    {
+      "source": "OPS-002",
+      "target": "SEC-004",
+      "type": "references"
+    },
+    {
+      "source": "OPS-003",
+      "target": "HR-003",
+      "type": "references"
+    },
+    {
+      "source": "OPS-003",
+      "target": "OPS-002",
+      "type": "references"
+    },
+    {
+      "source": "OPS-004",
+      "target": "HR-001",
+      "type": "references"
+    },
+    {
+      "source": "OPS-004",
+      "target": "IT-001",
+      "type": "references"
+    },
+    {
+      "source": "OPS-004",
+      "target": "FIN-001",
+      "type": "references"
+    },
+    {
+      "source": "OPS-004",
+      "target": "SEC-001",
+      "type": "references"
+    },
+    {
+      "source": "OPS-004",
+      "target": "OPS-001",
+      "type": "references"
+    }
+  ]
+}

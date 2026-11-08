@@ -1,0 +1,10 @@
+import {spawn} from 'node:child_process';
+import {access} from 'node:fs/promises';
+import path from 'node:path';
+const root=path.resolve(import.meta.dirname,'..');
+await access(path.join(root,'build/server/index.mjs'));
+await access(path.join(root,'repositories','Enterprise-3000','brain.sqlite')).catch(()=>{throw Error('The obsolete Enterprise-3000 corpus was deleted during cleanup. Use Start-DemoTech.cmd for the active fictional organization.');});
+const child=spawn(process.execPath,[path.join(root,'build/server/index.mjs')],{cwd:root,stdio:'inherit',windowsHide:true,env:{...process.env,NODE_ENV:'production',PORT:'3213',BRAIN_DATA_DIR:path.join(root,'repositories','Enterprise-3000'),BRAIN_REPOSITORY_NAME:'Enterprise-3000',BRAIN_SEED_DEMO:'0',RAG_EMBED_MODEL:'embeddinggemma:latest'}});
+child.on('error',error=>{console.error(error.message);process.exitCode=1;});
+child.on('exit',code=>{process.exitCode=code??1;});
+for(const signal of ['SIGINT','SIGTERM'])process.once(signal,()=>child.kill(signal));

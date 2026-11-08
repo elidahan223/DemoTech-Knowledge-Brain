@@ -1,0 +1,4 @@
+import assert from 'node:assert/strict';import {writeFile} from 'node:fs/promises';
+const base='http://127.0.0.1:3213';const turns=[];let context;
+for(const question of ['מה הארגון עושה','מה נודשא כל הקבצים שש לנו','מה הנושא של הקבצים']){const r=await fetch(base+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question,context})});assert.equal(r.status,200);const result=await r.json();turns.push({question,response:result});context=result.conversationContext;if(turns.length>1){assert.equal(result.mode,'corpus-overview');assert.ok(result.sources.length>0);assert.ok(!result.answer.includes('שתואם במדויק'));}}
+await writeFile('reports/rag-critical/corpus-switch.json',JSON.stringify(turns,null,2));console.log(turns.map(t=>({question:t.question,mode:t.response.mode,answer:t.response.answer})));
